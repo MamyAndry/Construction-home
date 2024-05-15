@@ -1,0 +1,66 @@
+{% extends "blank.html" %}
+{% load static %}
+{% load multiply %}
+
+{% load humanize %}
+{% load sexy_number from sexify %}
+{% block title %}Devis{% endblock %}
+
+{% block page_title %}Devis{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Details Devis</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <h5><strong><i>Client : </i></strong> {{devis.client.numero}} </h5><br>
+                            <h5><strong><i>Date devis : </i></strong> {{devis.date_devis}} </h5><br>
+                            <h5><strong><i>Date debut construction : </i></strong> {{devis.date_debut_construction}} </h5><br>
+                            <h5><strong><i>Prix Total : </i></strong> {{devis.prix_total | intcomma}} </h5><br>
+                        </div>
+                        <div class="col-6">
+                            <h5><strong><i>Type Maison : </i></strong> {{devis.type.libelle}} </h5><br>
+                            <h5><strong><i>Finition : </i></strong> {{devis.finition.libelle}} </h5><br>
+                            <h5><strong><i>Pourcentage : </i></strong> {{devis.pourcentage}} %</h5><br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Numero</th>
+                                    <th>Designation</th>
+                                    <th>unite</th>
+                                    <th>Quantite</th>
+                                    <th>Prix_unitaire</th>
+                                    <th>Total</th>
+                                </tr>
+                                {% for item in details %}
+                                    <tr>
+                                        <td>{{item.travaux.code}}</td>
+                                        <td>{{item.travaux.libelle}}</td>
+                                        <td>{{item.travaux.unite.libelle}}</td>
+                                        <td>{{item.quantite}}</td>
+                                        <td>{{item.prix_unitaire}}</td>
+                                        <td>{{item.quantite|multiply:item.prix_unitaire | intcomma }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

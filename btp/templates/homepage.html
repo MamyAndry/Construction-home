@@ -1,0 +1,75 @@
+{% extends "blank.html" %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block page_title %}Home Page{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        {% if error != "" %}
+            <div class='alert alert-primary alert-dismissible'>
+                <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+                <h5><i class='icon fas fa-info'>{{error}}</i></h5>
+            </div>
+        {% endif %}
+        <div class="col-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="card-title">MONTANT TOTAL DEVIS</div>
+                </div>
+                <div class="card-body">
+                        <div class="description-block">
+                        <img src="{% static 'icon/coin.png'%}" width="30%">
+                        <h1 style="color:rgb(212, 175, 55);">{{montant}} Ar</h1>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <div class="card-title">MONTANT TOTAL DE PAIEMENT EFFECTUE</div>
+                </div>
+                <div class="card-body">
+                    <div class="description-block">
+                        <h1 style="color: rgb(212, 175, 55);">{{montant_total_paiement_effectue}} Ar</h1>
+                        <img src="{% static 'icon/coin.png'%}" width="29%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="card card-info">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Histogramme</h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <form action="/histogramme" method="get">
+                        <div class="form-group">
+                            <label>Annee</label>
+                            <select class="form-control" name="annee">
+                                {% for elt in annee %}
+                                    <option value="{{elt | intcomma}}">{{elt}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-3 mb-3">
+                            <button type="submit"
+                                class="btn btn-primary btn-block">Montrer</button>
+                        </div> 
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>
+{% endblock %}

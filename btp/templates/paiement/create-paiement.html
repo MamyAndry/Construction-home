@@ -1,0 +1,85 @@
+{% extends "blank.html" %}
+{% load static %}
+
+{% block title %}Add Paiement{% endblock %}
+{% block page_title %}Add Paiement{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Paiement</h3>
+                    </div>
+                    <div class="card-body">
+
+                        <div id="results"></div>
+                        <form action="/create_post/" method="post" enctype="multipart/form-data" id="post-form">
+                            {% csrf_token %}
+							<div class="form-group">
+								<label class="form-label" >Date Paiement</label>
+								<input type="Date" name="date_paiement" class="form-control" id="date_paiement">
+							</div>
+							<div class="form-group">
+								<label class="form-label" >Montant</label>
+								<input type="number" name="montant" class="form-control" id="montant">
+							</div>
+							<div class="form-group">
+                                <input type="hidden" name="devis" value = {{devis}} id="devis">
+                            </div>
+							
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                        </form>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block script %}
+<script>
+    var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    $('#post-form').on('submit', function(event){
+        event.preventDefault();
+        console.log("form submitted!")  // sanity check
+        create_post();
+    });
+    
+    // AJAX for posting
+    function create_post() {
+        console.log("create post is working!") // sanity check
+        var datas = { date_paiement : $('#date_paiement').val(),  montant : $('#montant').val(),  devis : $('#devis').val() }
+        console.log(datas)
+        $.ajax({
+            url : "/paiement/insert-paiement", // the endpoint
+            type : "POST", // http method
+            data : datas, // data sent with the post request
+
+            beforeSend: function(xhr) {
+                xhr.setRequestHeader('X-CSRFToken', csrftoken);
+            },
+            // handle a successful response
+            success : function(json) {
+                console.log(json) 
+                $('#date_paiement').val(''); // remove the value from the input
+                $('#montant').val('0'); // remove the value from the input
+                $('#results').html(
+                "<div class='alert alert-primary alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><h5><i class='icon fas fa-info'></i>" + json 
+                        + "</h5></div>")
+                console.log("success"); // another sanity check
+            },
+
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html(
+                    "<div class='alert alert-danger alert-dismissible'><button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button><h5><i class='icon fas fa-ban'></i>" + errmsg 
+                        + "</h5></div>")
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+</script>
+{% endblock %}

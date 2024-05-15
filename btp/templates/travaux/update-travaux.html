@@ -1,0 +1,46 @@
+{% extends "blank.html" %}
+{% load static %}
+
+{% block title %}Update Travaux{% endblock %}
+{% block page_title %}Update Travaux{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Update Travaux</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if error != "" %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-ban"></i>{{error}}</h5>
+                            </div>
+                        {% endif %}
+                        <form action="/travaux/update-travaux" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+						<div class="form-group">
+							<label class="form-label" >Libelle</label>
+							<input type="text" name="libelle" class="form-control"  value = "{{ object.libelle }}">
+						</div>
+						<div class="form-group">
+							<label class="form-label" >Prix Unitaire</label>
+							<input type="number" name="prix_unitaire" class="form-control"  value = "{{ object.prix_unitaire }}">
+						</div>
+						<div class="form-group">
+							<label class="form-label" ></label>
+							<input type="hidden" name="id_travaux" class="form-control"  value = "{{ object.id_travaux }}">
+						</div>
+						
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                        </form>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

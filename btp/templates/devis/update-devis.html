@@ -1,0 +1,62 @@
+{% extends "blank.html" %}
+{% load static %}
+
+{% block title %}Update Devis{% endblock %}
+{% block page_title %}Update Devis{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Update Devis</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if error != "" %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-ban"></i>{{error}}</h5>
+                            </div>
+                        {% endif %}
+                        <form action="/devis/update-devis" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+							<div class="form-group">
+								<label class="form-label">Finition</label>
+								<select class="form-control" name="finition">
+									{%for elt in finition %}
+										{%if elt.id_finition == object.finition.id_finition %}
+											<option value = "{{elt.id_finition}}" selected>{{elt.libelle}}</option>
+										{%else%}
+											<option value = "{{elt.id_finition}}" >{{elt.libelle}}</option>
+										{%endif%}
+									{%endfor%}
+								</select>
+							</div>
+							<div class="form-group">
+								<label class="form-label" ></label>
+								<input type="hidden" name="id_devis" class="form-control"  value = "{{ object.id_devis }}">
+							</div>
+							<div class="form-group">
+								<label class="form-label">Type</label>
+								<select class="form-control" name="type">
+									{%for elt in type_maison %}
+										{%if elt.id_type == object.type.id_type %}
+											<option value = "{{elt.id_type}}" selected>{{elt.libelle}}</option>
+										{%else%}
+											<option value = "{{elt.id_type}}" >{{elt.libelle}}</option>
+										{%endif%}
+									{%endfor%}
+								</select>
+							</div>
+						
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                        </form>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

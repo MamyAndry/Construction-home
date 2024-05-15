@@ -1,0 +1,139 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light"><strong>Home Construction</strong></span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="user-panel mt-3 pb-1 mb-3 d-flex">
+            <div class="image">
+                <img src="{% static 'icon/user.png' %}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <center>
+                <h6>
+                    <a href="#" class="d-block">
+                        {{request.session.user.numero}}
+                    </a>
+                </h6>
+                <h6 style="color: bisque;">
+                    {% if request.session.user.role == 0 %}
+                        Admin
+                    {% else %}
+                        Client
+                    {% endif %}
+                </h6>
+                </center>
+
+            </div>
+        </div>
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+            with font-awesome or any other icon font library -->
+
+            {% if request.session.user.role == 0 %}
+                <li class="nav-item">
+                    <a href="/homepage" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <p> Dashboard </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-table"> </i>
+                        <p>
+                            Asset
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/devis-admin" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Devis </p>
+                            </a>
+                        </li>	
+                        <li class="nav-item">
+                            <a href="/finition" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Finition </p>
+                            </a>
+                        </li>	                
+                        <li class="nav-item">
+                            <a href="/travaux" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Travaux </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-download"></i>
+                        <p>
+                            Import
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/import/import-other-Form" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Devis et Travaux Maison</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/import/import-paiement-Form" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Paiement</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>  	
+            {% else %}
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="fas fa-table"></i>
+                    <p>
+                        Asset
+                        <i class="right fas fa-angle-left"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="/devis" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p> Devis </p>
+                        </a>
+                    </li>
+                </ul>
+            {% endif %}
+
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user"></i>
+                        <p>
+                            User
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="/log-out" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p> Log out </p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

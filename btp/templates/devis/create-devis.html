@@ -1,0 +1,94 @@
+{% extends "blank.html" %}
+{% load static %}
+{% load l10n %}
+
+{% block title %}Add Devis{% endblock %}
+{% block page_title %}Add Devis{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add Devis</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if error != "" %}
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-ban"></i>{{error}}</h5>
+                            </div>
+                        {% endif %}
+                        <form action="/devis/insert-devis" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+							<div class="form-group">
+                                <div class="form-group">
+                                    <label class="form-label"><h3>Type Maison</h3></label>
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                        {%for elt in type_maison %}  
+                                            <div class="col">
+                                                <label for="{{elt.id_type}}-type" >
+                                                <input class="card-radio d-none" id="{{elt.id_type}}-type" type="radio" name="type" value="{{elt.id_type}}"/>
+                                                    <div class="col card" style="margin-right: 2%; font-display: center;color: black;">
+                                                        <div class="card-body">
+                                                            <h3>{{elt.libelle}}</h3>
+                                                            <p>
+                                                                <ul style="list-style:none;">
+                                                                    <li><h3>{{elt.surface}}</h3></li>
+                                                                    <li><h3>{{elt.duree}}</h3></li>
+                                                                    <li><h5>{{elt.description}}</h3></li>
+                                                                    
+                                                                </ul>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        {%endfor%}
+                                        </div>          
+                                    </div>
+                                </div>
+                            <div class="form-group">
+								<label class="form-label"><h3>Finition</h3></label>
+                                <div class="container-fluid">
+                                    <div class="row">
+									{%for elt in finition %} 
+                                    <div class="col">
+                                        <label for="{{elt.id_finition}}-finition">
+                                            <input class="card-radio d-none" id="{{elt.id_finition}}-finition" type="radio" name="finition" value="{{elt.id_finition}}"/>
+                                            <div class="col card" style=" margin-right: 2%; color: black;">
+                                                    <div class="card-body">
+                                                        <h3>{{elt.libelle}}</h3>
+                                                        <h4>
+                                                            {{elt.pourcentage}} %
+                                                        </h4>
+                                                    </div>
+                                            </div>
+                                        </label>
+                                    </div>
+									{%endfor%}
+							</div>
+                            <div class="form-group">
+                                <label class="form-label"><h3>Date Debut Construction</h3></label>
+                                <input type="Date" name="date_debut_construction" class="form-control">
+                            </div>
+                            <div class="form-group">
+								<label class="form-label"><h3>Lieu</h3></label>
+                                <select class="form-control" name="lieu">
+                                    {%for elt in lieu %} 
+                                        <option value="{{elt.id_lieu}}">{{elt.libelle}}</option>
+                                    {%endfor%}
+								</select>
+							</div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+                            </div>
+                        </form>
+                    </div>            
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -18,6 +18,14 @@ CREATE OR REPLACE VIEW v_duree_total_devis AS
 CREATE OR REPLACE VIEW v_total_payee_par_devis AS
     SELECT devis, SUM(montant) total  FROM paiement 
         GROUP BY devis;
+
+-- SELECT m.libelle, COALESCE(q.total, 0) montant 
+--     from mois m LEFT JOIN 
+--         (SELECT SUM(prix_total) total, extract('month' from date_devis) mois 
+--             FROM devis WHERE extract('year' from date_devis) = %s 
+--                 GROUP BY mois) q 
+--             ON m.id_mois = q.mois
+    
 -- CREATE OR REPLACE VIEW v_details_devis_travaux_lib AS
 --     SELECT v.devis, t.code, t.id_travaux,  t.libelle  from v_details_devis v
 --         JOIN travaux p

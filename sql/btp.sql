@@ -1,11 +1,9 @@
 CREATE TABLE utilisateurs(
    id_utilisateur SERIAL,
-   nom VARCHAR(50)  NOT NULL,
-   prenom VARCHAR(50)  NOT NULL,
    numero VARCHAR(50)  NOT NULL,
    email VARCHAR(50) ,
    mot_de_passe VARCHAR(100) ,
-   role INTEGER NOT NULL,
+   role INTEGER NOT NULL DEFAULT 10,
    PRIMARY KEY(id_utilisateur),
    UNIQUE(numero)
 );
@@ -61,13 +59,13 @@ CREATE TABLE travaux(
 
 CREATE TABLE devis(
    id_devis SERIAL,
-   prix_total DOUBLE PRECISION,
+   prix_total DOUBLE PRECISION DEFAULT 0,
    date_debut_construction DATE,
    date_fin_construction DATE,
    date_devis DATE,
-   pourcentage DOUBLE PRECISION ,
+   pourcentage  DOUBLE PRECISION DEFAULT 0,
    ref_devis VARCHAR(50) ,
-   paiement_effectue DOUBLE PRECISION,
+   paiement_effectue DOUBLE PRECISION  DEFAULT 0,
    lieu INTEGER,
    finition INTEGER NOT NULL,
    client INTEGER NOT NULL,
@@ -76,7 +74,8 @@ CREATE TABLE devis(
    FOREIGN KEY(lieu) REFERENCES lieu(id_lieu),
    FOREIGN KEY(finition) REFERENCES finition(id_finition),
    FOREIGN KEY(client) REFERENCES utilisateurs(id_utilisateur),
-   FOREIGN KEY(type) REFERENCES type_maison(id_type)
+   FOREIGN KEY(type) REFERENCES type_maison(id_type),
+   UNIQUE(ref_devis)
 );
 
 CREATE TABLE paiement(
@@ -86,29 +85,10 @@ CREATE TABLE paiement(
    ref_paiement VARCHAR(50) ,
    devis INTEGER NOT NULL,
    PRIMARY KEY(id_paiement),
-   FOREIGN KEY(devis) REFERENCES devis(id_devis)
+   FOREIGN KEY(devis) REFERENCES devis(id_devis),
+   UNIQUE(ref_paiement)
 );
 
-
-CREATE TABLE devis(
-   id_devis SERIAL,
-   prix_total DOUBLE PRECISION,
-   date_debut_construction DATE,
-   date_fin_construction DATE,
-   date_devis DATE,
-   pourcentage VARCHAR(50) ,
-   ref_devis VARCHAR(50) ,
-   paiement_effectue DOUBLE PRECISION,
-   lieu INTEGER,
-   finition INTEGER NOT NULL,
-   client INTEGER NOT NULL,
-   type INTEGER NOT NULL,
-   PRIMARY KEY(id_devis),
-   FOREIGN KEY(lieu) REFERENCES lieu(id_lieu),
-   FOREIGN KEY(finition) REFERENCES finition(id_finition),
-   FOREIGN KEY(client) REFERENCES utilisateurs(id_utilisateur),
-   FOREIGN KEY(type) REFERENCES type_maison(id_type)
-);
 
 CREATE TABLE details_devis(
    id_details SERIAL PRIMARY KEY,   

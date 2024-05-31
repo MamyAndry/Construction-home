@@ -6,6 +6,7 @@ from btp import views
 urlpatterns = [
     path('homepage', views.homepage, name = "homepage"),
     path('', views.loginClientForm, name="index"),	
+    path('clean', views.clean),
     path('admin-log', views.loginAdminForm, name="log-admin"),
     path('login', views.login_client),
     path('log-out', views.logout),

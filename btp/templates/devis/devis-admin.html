@@ -1,5 +1,8 @@
 {% extends "blank.html" %}
 {% load static %}
+{% load percent %}
+{% load range %}
+{% load index %}
 
 {% block title %}Devis{% endblock %}
 
@@ -16,6 +19,11 @@
             <div class="col-md-12">
                 <div class="container-fluid">
                     <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h2>Devis en cours</h2>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="col-md-6">
                                 {% if message != "" %}
@@ -41,23 +49,33 @@
 									<th>Client</th>
 									<th>Finition</th>
 									<th>Paiement Effectue</th>
+									<th>Pourcentage Paiement Effectue</th>
 									<th>Type</th>
 									
 									
                                     <th></th>
                                 </thead>  
                                 <tbody>
-                                    {%for elt in data %}
+                                    {% for elt in range %}
+                                        {% with current_item=data|index:forloop.counter0 %}
                                         <tr>
-											<td>{{elt.pourcentage}}</td>
-											<td>{{elt.prix_total}}</td>
-											<td>{{elt.date_debut_construction}}</td>
-											<td>{{elt.date_devis}}</td>
-											<td>{{elt.date_fin_construction}}</td>
-											<td>{{elt.client.numero}}</td>
-											<td>{{elt.finition.libelle}}</td>
-											<td>{{elt.paiement_effectue}}</td>
-											<td>{{elt.type.libelle}}</td>
+											<td>{{current_item.pourcentage}}</td>
+											<td>{{current_item.prix_total}}</td>
+											<td>{{current_item.date_debut_construction}}</td>
+											<td>{{current_item.date_devis}}</td>
+											<td>{{current_item.date_fin_construction}}</td>
+											<td>{{current_item.client.numero}}</td>
+											<td>{{current_item.finition.libelle}}</td>
+                                            <td>{{ current_item.paiement_effectue}} Ar</td>
+                            
+                                            {% if pourcentage|index:forloop.counter < 50 %}
+                                                <td style="color: green;">{{pourcentage|index:forloop.counter0}} %</td>
+                                            {% elif pourcentage|index:i == 50 %}
+                                                <td>{{pourcentage|index:forloop.counter0}} %</td>
+                                            {% else %}
+                                                <td  style="color: red;">{{pourcentage|index:forloop.counter0}} %</td>
+                                            {% endif %}
+											<td>{{current_item.type.libelle}}</td>
 											
                                             <td>
                                                 <a href="/devis/details/{{elt.id_devis}}">
@@ -67,6 +85,7 @@
                                                 </a>
                                             </td>
                                         </tr>
+                                        {%endwith%}
                                     {%endfor%}
                                 </tbody> 
                             </table>

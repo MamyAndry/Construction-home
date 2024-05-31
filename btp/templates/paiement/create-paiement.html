@@ -18,6 +18,10 @@
                         <form action="/create_post/" method="post" enctype="multipart/form-data" id="post-form">
                             {% csrf_token %}
 							<div class="form-group">
+								<label class="form-label" >Reference Paiement</label>
+								<input type="text" name="ref_paiement" class="form-control" id="ref_paiement">
+							</div>
+							<div class="form-group">
 								<label class="form-label" >Date Paiement</label>
 								<input type="Date" name="date_paiement" class="form-control" id="date_paiement">
 							</div>
@@ -51,7 +55,7 @@
     // AJAX for posting
     function create_post() {
         console.log("create post is working!") // sanity check
-        var datas = { date_paiement : $('#date_paiement').val(),  montant : $('#montant').val(),  devis : $('#devis').val() }
+        var datas = { ref_paiement : $('#ref_paiement').val(), date_paiement :  $('#date_paiement').val(),  montant : $('#montant').val(),  devis : $('#devis').val() }
         console.log(datas)
         $.ajax({
             url : "/paiement/insert-paiement", // the endpoint
@@ -64,6 +68,7 @@
             // handle a successful response
             success : function(json) {
                 console.log(json) 
+                $('#ref_paiement').val(''); // remove the value from the input
                 $('#date_paiement').val(''); // remove the value from the input
                 $('#montant').val('0'); // remove the value from the input
                 $('#results').html(

@@ -3,12 +3,17 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.template import loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from btp.views import check_if_connected
 from .finitionForm import FinitionForm
 from .finition import Finition
 
 
 
 def index(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = request.GET.get('message', '')
     error = request.GET.get('error', '')
     
@@ -29,7 +34,10 @@ def index(request):
     }
     return render(request, "finition/finition.html", context)
 
-def updateFinitionForm(request, id):
+def updateFinitionForm(request, id):    
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
     object = Finition.objects.get(id_finition = id)  
 
@@ -41,22 +49,29 @@ def updateFinitionForm(request, id):
     return render(request, "finition/update-finition.html", context)
 
 def updateFinition(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     id = request.POST['id_finition']
-    model_instance = Finition.objects.get(id_finition = id)
+    object = Finition.objects.get(id_finition = id)
     if request.method == 'POST':
-        form = FinitionForm(request.POST, instance=model_instance)
-        if(form.is_valid()):
-            try:
-                form.save() 
-                message = "Updated succesfully"
-            except Exception as e:
-                error = str(e)
-                return redirect(reverse('updateForm-finition', args = (id,))+ f'?error={error}')
+        try:
+            pourcentage = float(request.POST['pourcentage'])
+            object.pourcentage = pourcentage
+            object.libelle = request.POST['libelle']
+            object.save() 
+            message = "Updated succesfully"
+        except Exception as e:
+            error = str(e)
+            return redirect(reverse('updateForm-finition', args = (id,))+ f'?error={error}')
     return redirect(reverse('finition')+ f'?message={message}&error={error}&page=1')
 
 def deleteFinition(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     try:
@@ -68,6 +83,9 @@ def deleteFinition(request, id):
     return redirect(reverse('finition')+ f'?message={message}&error={error}&page=1')
 
 def insertFinitionForm(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
 
     context = {
@@ -79,6 +97,9 @@ def insertFinitionForm(request):
 
 
 def insertion(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     if request.method == "POST":

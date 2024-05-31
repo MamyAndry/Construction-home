@@ -25,12 +25,13 @@
                             <h5><strong><i>Client : </i></strong> {{devis.client.numero}} </h5><br>
                             <h5><strong><i>Date devis : </i></strong> {{devis.date_devis}} </h5><br>
                             <h5><strong><i>Date debut construction : </i></strong> {{devis.date_debut_construction}} </h5><br>
-                            <h5><strong><i>Prix Total : </i></strong> {{devis.prix_total | intcomma}} </h5><br>
+                            <h5><strong><i>Prix Total : </i></strong> {{devis.prix_total | intcomma}} Ar</h5><br>
                         </div>
                         <div class="col-6">
                             <h5><strong><i>Type Maison : </i></strong> {{devis.type.libelle}} </h5><br>
                             <h5><strong><i>Finition : </i></strong> {{devis.finition.libelle}} </h5><br>
-                            <h5><strong><i>Pourcentage : </i></strong> {{devis.pourcentage}} %</h5><br>
+                            <h5><strong><i>Pourcentage majoration : </i></strong> {{devis.pourcentage}} %</h5><br>
+                            <h5><strong><i>Lieu : </i></strong> {{devis.lieu.libelle}}</h5><br>
                         </div>
                     </div>
                     <div class="row">
@@ -50,7 +51,7 @@
                                         <td>{{item.travaux.libelle}}</td>
                                         <td>{{item.travaux.unite.libelle}}</td>
                                         <td>{{item.quantite}}</td>
-                                        <td>{{item.prix_unitaire}}</td>
+                                        <td>{{item.prix_unitaire}} Ar</td>
                                         <td>{{item.quantite|multiply:item.prix_unitaire | intcomma }}</td>
                                     </tr>
                                 {% endfor %}

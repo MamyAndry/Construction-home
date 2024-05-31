@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Update Travaux</h3>
+                        <h3 class="card-title"><h2>Import Devis et maison travaux</h2></h3>
                     </div>
                     <div class="card-body">
                         {% if error != "" %}
@@ -22,10 +22,11 @@
                         <form action="/import/import-other" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label class="form-label" >Travaux Type</label>
+                                <label class="form-label" ><h4>Maison Travaux</h4></label>
                                 <input type="file" name="travaux" class="form-control" id="exampleInputFile">
+                            </div>
                             <div class="form-group">
-                                <label class="form-label" >Devis</label> 
+                                <label class="form-label" ><h4>Devis</h4></label> 
                                 <input type="file" name="devis" class="form-control" id="exampleInputFile">
                             </div>
                         

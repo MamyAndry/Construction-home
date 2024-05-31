@@ -1,6 +1,8 @@
 {% extends "blank.html" %}
 {% load static %}
 {% load substract %}
+{% load percent %}
+{% load humanize %}
 
 {% block title %}Devis{% endblock %}
 
@@ -47,8 +49,7 @@
                                     <th>Prix Total</th>
 									<th>Finition</th>
 									<th>Type</th>
-								    <th>A payer</th>
-                                    <th>Pourcentage</th>
+                                    <th>Reste a payer</th>
                                     <th>Lieu</th>
 									
                                     <th></th>
@@ -60,11 +61,10 @@
 											<td>{{elt.date_devis}}</td>
 											<td>{{elt.date_debut_construction}}</td>
 											<td>{{elt.date_fin_construction}}</td>
-											<td>{{elt.prix_total}}</td> 
+											<td>{{elt.prix_total | intcomma}}</td> 
 											<td>{{elt.finition.libelle}}</td>
 											<td>{{elt.type.libelle}}</td>
-											<td>{{elt.prix_total|substract:elt.paiement_effectue}}</td>
-											<td>{{elt.pourcentage}}</td>
+											<td>{{elt.prix_total | substract:elt.paiement_effectue}}</td>
 											<td>{{elt.lieu.libelle}}</td>
                                             <td>
                                                 <!-- <a href="/devis/updateForm/{{elt.id_devis}}">

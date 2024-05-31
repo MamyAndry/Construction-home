@@ -8,20 +8,25 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            <div class="col-auto">
+            <!-- <div class="col-auto">
                 <a href = "/travaux/insert">
                     <button type="button" class="btn btn-success">
                         Add Travaux
                         <img src="{% static 'icons/add-outline.svg' %}" width="25" height="25" fill="currentColor">
                     </button>
                 </a>
-            </div>   
+            </div>    -->
         </div>
         <br>
         <div class="row">
             <div class="col-md-12">
                 <div class="container-fluid">
                     <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h2>Travaux</h2>
+                            </div>
+                        </div>
                         <div class="card-body">
                             <div class="col-md-6">
                                 {% if message != "" %}

@@ -10,7 +10,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Update Travaux</h3>
+                        <h3 class="card-title"><h2>Import Paiement</h2></h3>
                     </div>
                     <div class="card-body">
                         {% if error != "" %}
@@ -22,7 +22,7 @@
                         <form action="/import/import-paiement" method="post" enctype="multipart/form-data">
                             {% csrf_token %}
                             <div class="form-group">
-                                <label class="form-label" >Paiement</label>
+                                <label class="form-label" > <h4>Paiement</h4> </label>
                                 <input type="file" name="paiement" class="form-control">
                             </div>
 						

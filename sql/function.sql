@@ -36,6 +36,27 @@ BEFORE DELETE ON paiement
 FOR EACH ROW
 EXECUTE FUNCTION update_devis_after_deleting_paiement();
 
+--PROCEDURE DE MISE A JOUR DEVIS
+CREATE OR REPLACE PROCEDURE update_devis()
+LANGUAGE plpgsql
+AS $$
+BEGIN
+
+    UPDATE devis 
+    SET prix_total = calculate_prix_total(devis.id_devis, devis.pourcentage) 
+    WHERE prix_total = 0;
+
+    UPDATE devis 
+    SET date_fin_construction = 
+        (SELECT (d.date_debut_construction + INTERVAL '1 day' * t.duree) AS date_fin  
+        FROM devis d 
+        JOIN type_maison t ON d.type = t.id_type 
+        WHERE d.id_devis = devis.id_devis)
+    WHERE date_fin_construction IS NULL;
+END;
+$$;
+
+
 CREATE OR REPLACE FUNCTION calculate_prix_total(devis_id INTEGER, pourcentage DOUBLE PRECISION)
 RETURNS NUMERIC AS $$
 DECLARE

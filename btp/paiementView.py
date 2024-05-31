@@ -6,13 +6,16 @@ from django.template import loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from btp.paiementForm import PaiementForm
+from btp.views import check_if_connected
 
 from .paiement import Paiement
 from .devis import Devis
 
 
-
 def index(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = request.GET.get('message', '')
     error = request.GET.get('error', '')
     
@@ -33,7 +36,10 @@ def index(request):
     }
     return render(request, "paiement/paiement.html", context)
 
-def updatePaiementForm(request, id):
+def updatePaiementForm(request, id):    
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
     object = Paiement.objects.get(id_paiement = id)  
     devis = Devis.objects.all
@@ -45,6 +51,9 @@ def updatePaiementForm(request, id):
     return render(request, "paiement/update-paiement.html", context)
 
 def deletePaiement(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     try:
@@ -56,6 +65,9 @@ def deletePaiement(request, id):
     return redirect(reverse('paiement')+ f'?message={message}&error={error}&page=1')
 
 def insertPaiementForm(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
     context = {
         'error' : error,
@@ -72,6 +84,9 @@ def check_montant_payer(total, effectue, montant):
 
 
 def insertion(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     paiement = Paiement()
     if request.method == "POST":
@@ -82,12 +97,13 @@ def insertion(request):
                 devis = Devis.objects.get(id_devis = request.POST['devis'])
                 paiement.montant = montant
                 paiement.devis = devis
+                paiement.ref_paiement = request.POST['ref_paiement']
                 paiement.date_paiement = request.POST['date_paiement']
                 check_montant_payer(float(devis.prix_total), float(devis.paiement_effectue), float(paiement.montant))
                 paiement.save()
                 devis.paiement_effectue = float(devis.paiement_effectue) + float(paiement.montant)
                 devis.save()
-                message = "Paiement added succesfully"
+                message = "Payement succesfully"
             except Exception as e:
                 message = str(e)
     return HttpResponse(

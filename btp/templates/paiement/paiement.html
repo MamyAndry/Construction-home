@@ -9,21 +9,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-auto">
-                <a href = "/paiement/insert">
-                    <button type="button" class="btn btn-success">
-                        Add Paiement
-                        <img src="{% static 'icons/add-outline.svg' %}" width="25" height="25" fill="currentColor">
-                    </button>
-                </a>
             </div>        
-            <div class="col-auto">
-                <a href="pdf" target="_blank">
-                    <button type="button" class="btn btn-primary">
-                        Export
-                        <img src="{% static 'icons/download-outline.svg' %}" width="25" height="25" fill="currentColor">
-                    </button>
-                </a>
-            </div>
         </div>
         <br>
         <div class="row">
@@ -48,19 +34,26 @@
                             <table class="table table-bordered">
                                 <thead>    
 									<th>Date Paiement</th>
+                                    <th>Ref Paiement</th>
 									<th>Montant</th>
-									<th>Id Paiement</th>
 									<th>Devis</th>
-									
+									<th></th>
                                 </thead>  
                                 <tbody>
                                     {%for elt in data %}
                                         <tr>
 											<td>{{elt.date_paiement}}</td>
-											<td>{{elt.montant}}</td>
-											<td>{{elt.id_paiement}}</td>
-											<td>{{elt.devis.id_devis}}</td>
+                                            <td>{{elt.ref_paiement}}</td>
+											<td>{{elt.montant}} Ar</td>
+											<td>{{elt.devis.ref_devis}}</td>
 											
+                                            <td>
+                                                <a href="/paiement/delete/{{elt.id_paiement}}">
+                                                    <button class="btn btn-danger">
+                                                        <img src="{% static 'icons/trash-outline.svg' %}" width="25" height="25" fill="currentColor" />
+                                                    </button>
+                                                </a>
+                                            </td>
                                         </tr>
                                     {%endfor%}
                                 </tbody> 

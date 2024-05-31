@@ -1,8 +1,19 @@
 from django.shortcuts import render,redirect
+from django.urls import reverse
 
-from btp.models import get_annee, log_admin, login, montant_paiement_effectue_total_devis, montant_total_devis
+from btp.models import get_annee, log_admin, login, montant_paiement_effectue_total_devis, montant_total_devis, clean_datas
 
 # Create your views here.
+
+
+def check_if_connected(request):
+    bool = True
+    try:
+        temp =  request.session['user'] 
+    except:
+        bool = False
+    return bool
+
 def loginClientForm(request):
     context = {
         
@@ -20,7 +31,7 @@ def loginAdminForm(request):
 def login_client(request):
     numero = request.POST['numero']
     user = login(numero)
-    if(user == None):
+    if(user is None):
         return redirect('index')
     request.session["user"] = user
     return redirect('devis')
@@ -58,3 +69,6 @@ def logout(request):
     request.session.flush()
     return redirect("index")
 
+def clean(request):
+    clean_datas()
+    return redirect('homepage')

@@ -9,6 +9,8 @@ from btp.devisPdf import get_html_for_pdf
 from btp.lieu import Lieu
 from btp.models import get_duree_total_devis, get_montant_total, insert_details_devis, montant_devis_par_mois_par_an
 
+from btp.paiement import Paiement
+from btp.views import check_if_connected
 from utility.pdfHandler import Pdf_handler
 from .devis import Devis
 from .utilisateurs import Utilisateurs
@@ -16,8 +18,10 @@ from .finition import Finition
 from .typeMaison import TypeMaison
 
 
-
 def index(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = request.GET.get('message', '')
     error = request.GET.get('error', '')
     
@@ -30,16 +34,29 @@ def index(request):
         page_obj = paginator.page(1)
     except EmptyPage:
         page_obj = paginator.page(paginator.num_pages)
-    print(datas)
+    pourcentage = []
+    for elt in page_obj:
+        if elt.paiement_effectue is None:
+            pourcentage.append(0)
+        else:
+            temp = (elt.paiement_effectue/elt.prix_total)*100
+            pourcentage.append(format(temp,".2f"))
+    limit = len(pourcentage)
     context = {        
         'message' : message,
         'error' : error,
         'num': page_num,
-        'data':page_obj
+        'data':page_obj,
+        'pourcentage': pourcentage,
+        'range': range(0, limit)
     }
     return render(request, "devis/devis-admin.html", context)
 
-def client_index(request):  
+def client_index(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')  
+    
     message = request.GET.get('message', '')
     error = request.GET.get('error', '')
     
@@ -62,6 +79,9 @@ def client_index(request):
     return render(request, "devis/devis.html", context)
 
 def updateDevisForm(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
     object = Devis.objects.get(id_devis = id) 
     finitions = Finition.objects.all()
@@ -75,6 +95,9 @@ def updateDevisForm(request, id):
     return render(request, "devis/update-devis.html", context)
 
 def updateDevis(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     id = request.POST['id_devis']
@@ -92,6 +115,9 @@ def updateDevis(request):
     return redirect(reverse('devis')+ f'?message={message}&error={error}&page=1')
 
 def deleteDevis(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     try:
@@ -103,6 +129,9 @@ def deleteDevis(request, id):
     return redirect(reverse('devis')+ f'?message={message}&error={error}&page=1')
 
 def insertDevisForm(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     error = request.GET.get('error', '')
     finitions = Finition.objects.all()
     typeMaisons = TypeMaison.objects.all()
@@ -116,6 +145,9 @@ def insertDevisForm(request):
     return render(request, "devis/create-devis.html", context)
 
 def insertion(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     message = ""
     error = ""
     devis = Devis()
@@ -141,9 +173,13 @@ def insertion(request):
     return redirect(reverse('devis')+ f'?message={message}&error={error}&page=1')
 
 def detail_devis_to_pdf(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     devis = Devis.objects.get(id_devis = id)
+    paiement = Paiement.objects.filter(devis__exact = id)
     details = DetailsDevis.objects.filter(devis__exact = id)
-    html = get_html_for_pdf(devis, details)
+    html = get_html_for_pdf(devis, details, paiement)
     pdf_handler = Pdf_handler("./files/devis.pdf", html)
 
     pdf_content = pdf_handler.toPdf()
@@ -156,6 +192,9 @@ def detail_devis_to_pdf(request, id):
         return HttpResponse("Failed to generate PDF", status=500)
     
 def details_devis_html(request, id):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     devis = Devis.objects.get(id_devis = id)
     details = DetailsDevis.objects.filter(devis__exact = id)
     context = {
@@ -165,6 +204,9 @@ def details_devis_html(request, id):
     return render(request, "devis/detail-devis.html", context)
 
 def histogramme_montant_par_mois_par_an(request):
+    bool = check_if_connected(request)
+    if(bool is False):
+        return redirect('index')
     annee = request.GET.get('annee')
     # Remove the comma
     formatted_string = annee.replace(",", "")

@@ -5,4 +5,4 @@ from .paiement import Paiement
 class PaiementForm(ModelForm):
     class Meta:
         model = Paiement
-        fields = ["date_paiement", "montant"]
+        fields = ["ref_paiement" ,"date_paiement", "montant"]

@@ -4,18 +4,18 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from btp.detailsDevis import DetailsDevis
-from btp.devisPdf import get_html_for_pdf
-from btp.lieu import Lieu
+from .detailsDevis import DetailsDevis
+from .devisPdf import get_html_for_pdf
+from btp.utility.lieu import Lieu
 from btp.models import get_duree_total_devis, get_montant_total, insert_details_devis, montant_devis_par_mois_par_an
 
-from btp.paiement import Paiement
+from btp.paiement.paiement import Paiement
 from btp.views import check_if_connected
 from utility.pdfHandler import Pdf_handler
 from .devis import Devis
-from .utilisateurs import Utilisateurs
-from .finition import Finition
-from .typeMaison import TypeMaison
+from btp.utilisateurs import Utilisateurs
+from btp.finition.finition import Finition
+from btp.maison.typeMaison import TypeMaison
 
 
 def index(request):

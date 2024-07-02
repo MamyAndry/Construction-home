@@ -1,2 +1,6 @@
 client,ref_devis,type_maison,finition,taux_finition,date_devis,date_debut,lieu
-0340590098,D001,TOKYO,Gold,"6,45%",22/12/2023,10/01/2024,Imerintsiatosika
+0340590098,D001,TOKYO,Gold,"6,45 %",22/12/2023,10/01/2024,Imerintsiatosika
+0340590098,D005,LONDRES,Premium,"11,30 %",05/01/2023,12/03/2024,Ambohijanaka
+0320723470,D008,KINSHASA,Standard,0 %,09/02/2024,14/02/2024,Ampitatafika
+0340609099,D003,KINSHASA,VIP,"26,50 %",10/03/2024,14/04/2024,Ambohibao
+0320723470,D007,KINSHASA,Premium,"11,30 %",25/02/2024,01/03/2024,Andoharanofotsy

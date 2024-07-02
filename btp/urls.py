@@ -1,5 +1,9 @@
 from django.urls import path
-from btp import devisView, finitionView, paiementView, travauxView, importFileView
+from btp.devis import devisView
+from btp.finition import finitionView
+from btp.paiement import paiementView
+from btp.travaux import travauxView
+from btp.importation import importFileView
 
 from btp import views
 

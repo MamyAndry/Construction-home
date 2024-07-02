@@ -5,11 +5,11 @@ from django.urls import reverse
 from django.template import loader
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from btp.paiementForm import PaiementForm
+from .paiementForm import PaiementForm
 from btp.views import check_if_connected
 
 from .paiement import Paiement
-from .devis import Devis
+from btp.devis.devis import Devis
 
 
 def index(request):

@@ -7,8 +7,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from btp.views import check_if_connected
 from .travauxForm import TravauxForm
 from .travaux import Travaux
-from .unite import Unite
-
+from btp.utility.unite import Unite
 
 
 def index(request):

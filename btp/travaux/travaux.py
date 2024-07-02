@@ -6,7 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-from .unite import Unite
+from btp.utility.unite import Unite
 
 class Travaux(models.Model):
     id_travaux = models.AutoField(primary_key=True)

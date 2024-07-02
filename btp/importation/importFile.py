@@ -4,10 +4,10 @@ from datetime import datetime
 from django.conf import settings
 from django.db import connection
 
-from btp.devisTemp import DevisTemp
-from btp.maisonTemp import MaisonTemp
-from btp.paiement import Paiement
-from btp.paiementTemp import PaiementTemp
+from .devisTemp import DevisTemp
+from .maisonTemp import MaisonTemp
+from .paiementTemp import PaiementTemp
+from btp.paiement.paiement import Paiement
 
 def cast_to_float(value):
     string = value.replace(",",".")
